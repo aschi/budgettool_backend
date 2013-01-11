@@ -8,6 +8,85 @@ App::uses('AppModel', 'Model');
  */
 class Group extends AppModel {
 
+	/**
+	 * Join group
+	 */
+ 	public function joinGroup($user_id, $password){
+ 		App::import('Model', 'User');
+		$user = new User();
+		
+		$this->read(null, $this->id);
+		
+		if($this->data['Group']['password'] == AuthComponent::password($password)){
+			$user->read(null, $user_id);
+			$user->set('group_id', $this->id);
+			if($user->save()){
+				return true;	
+			}
+		}
+		return false;
+ 	}
+
+	public function getUserIds($group_id){
+		$this->recursive = 1;
+		$this->read(null, $group_id);
+		
+		$i = 0;
+		while(array_key_exists($i, $this->data['User'])){
+			$userids[] = $this->data['User'][$i]['id'];
+			$i++;
+		}
+		return $userids;
+	}
+
+	/**
+	 * remove member
+	 */
+	public function removeMember($user_id){
+		App::import('Model', 'User');
+		$user = new User();
+		
+		$user->read(null, $user_id);
+			
+		$user->set('group_id', null);
+		if($user->save()){
+			return true;
+		}
+		return false;		
+	}
+
+	/**
+	 * use the given user as admin of the current group
+	 */
+	public function setGroupAdmin($user_id){
+		App::import('Model', 'User');
+		$user = new User();
+		
+		$user->read(null, $user_id);
+				
+		$user->set('group_id', $this->id);
+		if($user->save()){
+			$this->set('user_id', $user_id);
+			if($this->save()){
+				return true;
+			}
+		}
+		return false;
+	}
+
+
+	/**
+	 * function beforeSave
+	 * used for password hashing
+	 */
+	public function beforeSave($options = array()) {
+        if (isset($this->data['Group']['password'])) {
+            $this->data['Group']['password'] = AuthComponent::password($this->data['Group']['password']);
+        }
+        return true;
+    }
+
+
 /**
  * Display field
  *

@@ -1,11 +1,10 @@
 <div class="groups form">
 <?php echo $this->Form->create('Group'); ?>
 	<fieldset>
-		<legend><?php echo __('Create Group'); ?></legend>
+		<legend><?php echo __('Join Group'); ?></legend>
 	<?php
 		echo $this->Form->input('group_name');
 		echo $this->Form->input('password');
-		echo $this->Form->input('budget', array('label'=>'Monthly budget'));
 	?>
 	</fieldset>
 <?php echo $this->Form->end(__('Submit')); ?>

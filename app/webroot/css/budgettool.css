@@ -1,0 +1,100 @@
+body {
+	background: #003d4c;
+	color: #fff;
+	font-family:'lucida grande',verdana,helvetica,arial,sans-serif;
+	font-size:90%;
+	margin: 0;
+}
+
+/** Navigation **/
+#navigation{
+	width:100%;
+	background: transparent;
+	clear: both;
+	color: #333;
+	position:absolute;
+	bottom:12px;
+}
+
+#navigation ul{
+	border:1px solid #ccc;
+    border-width:0 0 2px 0;
+    list-style:none;
+    margin:0;
+    padding:0;
+    text-align:center;
+}
+
+#navigation li{
+	margin:0 0 0 0;
+	list-style-type: none;
+	white-space: nowrap;
+	padding: 0;	
+}
+
+#navigation li{
+    display:inline;
+}
+
+#navigation a{
+    display:inline-block;
+    padding:10px;
+}
+
+/** Header **/
+#header{
+	background:url('../img/header_background.png') repeat-x;
+	padding: 0 0 0 0;
+	margin:0;
+}
+#header div.bg{
+	position:relative;
+	background: url('../img/money_header.png') no-repeat top right;
+	color: #333;
+	padding: 100px 0 100px 0;
+}
+
+#header h1 {
+	line-height:40px;
+	font-size:200%;
+	font-weight:bold;
+	padding-left:200px;
+	background-color:transparent;
+	
+}
+#header h1 a {
+	color: #333;
+	background: #DDD;
+	font-weight: normal;
+	text-decoration: none;
+}
+
+div.loginBox{
+	background:#FFF;
+	border:1px solid #ccc;
+	width:350px;
+	padding-top:5px;
+	padding-left:5px;
+	position:absolute;
+	top:20px;
+	right:300px;
+}
+
+div.loginBox p{
+	padding:0;
+	margin:0;
+}
+
+div.loginBox input{
+	font-size: 100%;
+	font-family: "frutiger linotype", "lucida grande", "verdana", sans-serif;
+	width:100px;
+	padding:0; 	
+}
+
+div.loginBox table tr td{
+	background:0;
+	border:0;
+	padding:0;
+	margin:0;
+}

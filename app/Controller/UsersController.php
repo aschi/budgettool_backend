@@ -7,6 +7,10 @@ App::uses('AppController', 'Controller');
  */
 class UsersController extends AppController {
 	
+	public function beforeFilter(){
+		//allow registration
+		$this->Auth->allow('add');
+	}
 /**
  * index method
  *
@@ -42,15 +46,18 @@ class UsersController extends AppController {
 	public function add() {
 		if ($this->request->is('post')) {
 			$this->User->create();
+			$this->User->group_id = null;
 			if ($this->User->save($this->request->data)) {
 				$this->Session->setFlash(__('The user has been saved'));
-				$this->redirect(array('action' => 'index'));
+				debug($this->request->data['User']);
+				
+				$usr = array('id'=>$this->User->id, 'password'=>$this->request->data['User']['password'], 'username'=> $this->request->data['User']['username']);
+				$this->Auth->login($usr);
+        		$this->redirect('/users/home');				
 			} else {
 				$this->Session->setFlash(__('The user could not be saved. Please, try again.'));
 			}
 		}
-		$groups = $this->User->Group->find('list');
-		$this->set(compact('groups'));
 	}
 
 /**
@@ -101,6 +108,26 @@ class UsersController extends AppController {
 		}
 		$this->Session->setFlash(__('User was not deleted'));
 		$this->redirect(array('action' => 'index'));
+	}
+
+	public function home(){
+		$this->layout = 'logedin'; 
+		
+		$this->User->id = $this->Auth->User('id');
+		if (!$this->User->exists()) {
+			throw new NotFoundException(__('Invalid user'));
+		}
+		$this->User->read(null, $this->Auth->User('id'));
+		
+		if($this->User->data['Group']['id'] == null){
+			$this->redirect(array('controller'=>'groups', 'action'=>'selectGroup'));
+		}else{
+			$this->loadModel('Expense');
+			$this->set('expenses', $this->Expense->getAllByGroupIdAndMonth($this->User->data['Group']['id'], date('n')));
+			$this->set('budget', $this->User->data['Group']['budget']);
+			$this->set('group', $this->User->data['Group']);
+		}
+		
 	}
 
 /**

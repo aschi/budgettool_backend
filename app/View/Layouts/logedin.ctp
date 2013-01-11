@@ -43,11 +43,21 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
 			<div class="bg">
 				<?echo $this->element('login_box');?>
 				<h1><?php echo __('Group Budgeting Tool'); ?></h1>
+				<div id="navigation">
+					<ul>
+						<li><?=$this->Html->link(__('Home'), array('controller'=>'users', 'action' => 'home'));?></li>
+						<li><?=$this->Html->link(__('Add Expense'), array('controller'=>'expenses', 'action' => 'add'));?></li>
+						<li><?=$this->Html->link(__('Edit Profile'), array('controller'=>'users', 'action' => 'edit'));?></li>
+						<li><?=$this->Html->link(__('Edit Group Profile'), array('action' => 'add'));?></li>
+						<li><?=$this->Html->link(__('List Expenses'), array('controller'=>'expenses', 'action' => 'index'));?></li>
+						<li><?=$this->Html->link(__('Logout'), array('controller'=>'users','action' => 'logout'));?></li>
+					</ul>
+				</div>
 			</div>
 
 		</div>
-		<div id="content">
 
+		<div id="content">
 			<?php echo $this->Session->flash(); ?>
 
 			<?php echo $this->fetch('content'); ?>

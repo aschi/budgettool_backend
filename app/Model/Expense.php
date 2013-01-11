@@ -6,6 +6,55 @@ App::uses('AppModel', 'Model');
  * @property User $User
  */
 class Expense extends AppModel {
+	
+	
+	/**
+	 * 
+	 */
+	public function getAllByGroupId($group_id){
+		App::import('Model', 'Group');
+		$group = new Group();
+		$group->getUserIds($group_id);
+				
+		$exp = $this->find('all', array(
+		    'conditions' => array('Expense.user_id' => $userids), //array of conditions
+		    'recursive' => 1, //int
+		   	'order' => array('Expense.date ASC'), //string or array defining order
+		)); //array of conditions)
+		//$group->data['User'][0]
+		
+		return $exp;
+	}
+	
+	public function getAllByGroupIdAndMonth($group_id, $month){
+		App::import('Model', 'Group');
+		$group = new Group();
+		$userids = $group->getUserIds($group_id);
+
+		$exp = $this->find('all', array(
+		    'conditions' => array('Expense.user_id' => $userids, 'MONTH(Expense.date)'=>$month), //array of conditions
+		    'recursive' => 1, //int
+		   	'order' => array('Expense.date ASC'), //string or array defining order
+		)); //array of conditions)
+		
+		return $exp;
+	}
+	
+	public function getAllByUserId($user_id){
+		App::import('Model', 'User');
+		$user = new User();
+		
+		$user->read(null, $user_id);
+		return getAllByGroupId($user->data['Group']['id']);
+	}
+
+	public function getAllByUserIdAndMonth($user_id){
+		App::import('Model', 'User');
+		$user = new User();
+		
+		$user->read(null, $user_id);
+		return getAllByGroupIdAndMonth($user->data['Group']['id'], $month);
+	}
 
 /**
  * Display field
