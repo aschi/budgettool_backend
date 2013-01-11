@@ -131,29 +131,16 @@ class UsersController extends AppController {
 	}
 
 /**
- * getUser method
- * 
- * 
- */	
-	public function getUser($request) {
-	    $username = env('PHP_AUTH_USER');
-	    $pass = env('PHP_AUTH_PW');
-	
-	    if (empty($username) || empty($pass)) {
-	        return false;
-	    }
-	    return $this->findUser($username, $pass);
-	}
-	
-
-/**
  * login method
  */	
 	public function login() {
-	    if ($this->Auth->login()) {
-	        return $this->redirect($this->Auth->redirect());
-	    } else {
-	        $this->Session->setFlash(__('Username or password is incorrect'), 'default', array(), 'auth');
+	    if ($this->request->is('post')) {
+		$this->Session->setFlash('Test');			
+		if ($this->Auth->login()) {
+		    $this->redirect($this->Auth->redirect());
+		} else {
+		    $this->Session->setFlash(__('Invalid username or password, try again'));
+		}
 	    }
 	}
 

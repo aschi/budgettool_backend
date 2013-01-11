@@ -49,11 +49,13 @@ class AppController extends Controller {
             )
         )
     );
-
+/*
     public function beforeFilter() {
-    	
     	if($this->params['ext'] == 'json' || $this->params['ext'] == 'xml') {
         	$this->Auth->authenticate = array('Basic');
+    	}else{
+		$this->Auth->authenticate = array('Form');
     	}
     }
+*/
 }

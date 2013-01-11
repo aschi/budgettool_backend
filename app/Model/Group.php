@@ -80,9 +80,11 @@ class Group extends AppModel {
 	 * used for password hashing
 	 */
 	public function beforeSave($options = array()) {
-        if (isset($this->data['Group']['password'])) {
-            $this->data['Group']['password'] = AuthComponent::password($this->data['Group']['password']);
-        }
+	if(isset($this->data['Group']['changePassword'])){
+		if (isset($this->data['Group']['password'])) {
+		    $this->data['Group']['password'] = AuthComponent::password($this->data['Group']['password']);
+		}
+	}
         return true;
     }
 
