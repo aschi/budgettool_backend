@@ -22,4 +22,3 @@ echo $this->Form->create('User', array('url' => array('controller' => 'users', '
 	</table>
 <?= $this->Form->end();?>
 </div>
-	

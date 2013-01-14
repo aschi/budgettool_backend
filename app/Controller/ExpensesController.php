@@ -13,6 +13,8 @@ class ExpensesController extends AppController {
  * @return void
  */
 	public function index() {
+		$this->layout = 'logedin'; 
+		
 		$this->Expense->recursive = 0;
 		$this->set('expenses', $this->paginate());
 	}
@@ -38,8 +40,14 @@ class ExpensesController extends AppController {
  * @return void
  */
 	public function add() {
+		$this->layout = 'logedin'; 
+		
 		if ($this->request->is('post')) {
 			$this->Expense->create();
+			
+			//Set user id
+			$this->Expense->set('user_id', $this->Auth->user('id'));
+			
 			if ($this->Expense->save($this->request->data)) {
 				$this->Session->setFlash(__('The expense has been saved'));
 				$this->redirect(array('action' => 'index'));
@@ -47,34 +55,6 @@ class ExpensesController extends AppController {
 				$this->Session->setFlash(__('The expense could not be saved. Please, try again.'));
 			}
 		}
-		$users = $this->Expense->User->find('list');
-		$this->set(compact('users'));
-	}
-
-/**
- * edit method
- *
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
-	public function edit($id = null) {
-		$this->Expense->id = $id;
-		if (!$this->Expense->exists()) {
-			throw new NotFoundException(__('Invalid expense'));
-		}
-		if ($this->request->is('post') || $this->request->is('put')) {
-			if ($this->Expense->save($this->request->data)) {
-				$this->Session->setFlash(__('The expense has been saved'));
-				$this->redirect(array('action' => 'index'));
-			} else {
-				$this->Session->setFlash(__('The expense could not be saved. Please, try again.'));
-			}
-		} else {
-			$this->request->data = $this->Expense->read(null, $id);
-		}
-		$users = $this->Expense->User->find('list');
-		$this->set(compact('users'));
 	}
 
 /**

@@ -18,9 +18,13 @@ class Group extends AppModel {
 		$this->read(null, $this->id);
 		
 		if($this->data['Group']['password'] == AuthComponent::password($password)){
-			$user->read(null, $user_id);
-			$user->set('group_id', $this->id);
-			if($user->save()){
+			$usrdata = array(
+				'User' => array(
+					'id' => $user_id,
+					'group_id' => $this->id
+				)
+			);	
+			if($user->save($usrdata)){
 				return true;	
 			}
 		}
@@ -46,11 +50,14 @@ class Group extends AppModel {
 		App::import('Model', 'User');
 		$user = new User();
 		
-		$user->read(null, $user_id);
-			
-		$user->set('group_id', null);
-		if($user->save()){
-			return true;
+		$usrdata = array(
+			'User' => array(
+				'id' => $user_id,
+				'group_id' => null
+			)
+		);	
+		if($user->save($usrdata)){
+			return true;	
 		}
 		return false;		
 	}
@@ -62,12 +69,21 @@ class Group extends AppModel {
 		App::import('Model', 'User');
 		$user = new User();
 		
-		$user->read(null, $user_id);
-				
-		$user->set('group_id', $this->id);
-		if($user->save()){
-			$this->set('user_id', $user_id);
-			if($this->save()){
+		$usrdata = array(
+			'User' => array(
+				'id' => $user_id,
+				'group_id' => $this->id
+			)
+		);	
+		if($user->save($usrdata)){
+			$groupdata = array(
+				'Group' => array(
+					'id' => $this->id,
+					'user_id' => $user_id
+				)
+			);
+			
+			if($this->save($groupdata)){
 				return true;
 			}
 		}

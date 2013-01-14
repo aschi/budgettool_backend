@@ -79,6 +79,11 @@ class GroupsController extends AppController {
 		}
 		
 		if ($this->request->is('post') || $this->request->is('put')) {
+			//save password
+			if(!empty($this->request->data['Group']['new_password'])){
+				$this->Group->set('password', $this->request->data['Group']['new_password']);
+			}
+			
 			if ($this->Group->save($this->request->data)) {
 				$this->Session->setFlash(__('The group has been saved'));
 				$this->redirect(array('controller'=>'users', 'action' => 'home'));

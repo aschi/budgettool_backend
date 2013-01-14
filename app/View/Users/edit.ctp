@@ -5,7 +5,7 @@
 	<?php
 		echo $this->Form->input('id');
 		echo $this->Form->input('username');
-		echo $this->Form->input('password');
+		echo $this->Form->input('new_password', array('type'=>'password'));
 	?>
 	</fieldset>
 <?php echo $this->Form->end(__('Submit')); ?>

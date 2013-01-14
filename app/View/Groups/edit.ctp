@@ -6,7 +6,7 @@
 		echo $this->Form->input('id');
 		echo $this->Form->input('user_id');
 		echo $this->Form->input('group_name');
-		echo $this->Form->input('password');
+		echo $this->Form->input('new_password', array('type'=>'password'));
 		echo $this->Form->input('budget');
 	?>
 	</fieldset>

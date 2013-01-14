@@ -49,8 +49,6 @@ class UsersController extends AppController {
 			$this->User->group_id = null;
 			if ($this->User->save($this->request->data)) {
 				$this->Session->setFlash(__('The user has been saved'));
-				debug($this->request->data['User']);
-				
 				$usr = array('id'=>$this->User->id, 'password'=>$this->request->data['User']['password'], 'username'=> $this->request->data['User']['username']);
 				$this->Auth->login($usr);
         		$this->redirect('/users/home');				
@@ -73,6 +71,10 @@ class UsersController extends AppController {
 			throw new NotFoundException(__('Invalid user'));
 		}
 		if ($this->request->is('post') || $this->request->is('put')) {
+			if(!empty($this->request->data['User']['new_password'])){
+				$this->User->set('password', $this->request->data['User']['new_password']);
+			}
+			
 			if ($this->User->save($this->request->data)) {
 				$this->Session->setFlash(__('The user has been saved'));
 				$this->redirect(array('action' => 'index'));

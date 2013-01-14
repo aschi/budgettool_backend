@@ -41,7 +41,7 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
 	<div id="container">
 		<div id="header">
 			<div class="bg">
-				<?echo $this->element('login_box');?>
+				<?//echo $this->element('login_box');?>
 				<h1><?php echo __('Group Budgeting Tool'); ?></h1>
 				<div id="navigation">
 					<ul>
