@@ -8,36 +8,6 @@ App::uses('AppController', 'Controller');
 class GroupsController extends AppController {
 
 /**
- * index method
- *
- * @return void
- */
-	public function index() {
-		$this->Group->recursive = 0;
-		$this->set('groups', $this->paginate());
-	}
-
-/**
- * view method
- *
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
-	public function view($id = null) {
-		$this->Group->id = $id;
-		
-		if($this->Auth->user('group_id') != $id){
-			throw new ForbiddenException(__('You can only see your own group!'));
-		}
-		
-		if (!$this->Group->exists()) {
-			throw new NotFoundException(__('Invalid group'));
-		}
-		$this->set('group', $this->Group->read(null, $id));
-	}
-
-/**
  * add method
  *
  * @return void
@@ -69,12 +39,16 @@ class GroupsController extends AppController {
  * @return void
  */
 	public function edit($id = null) {
+		$this->layout = 'logedin';
 		$this->Group->id = $id;
 		if (!$this->Group->exists()) {
 			throw new NotFoundException(__('Invalid group'));
 		}
 		
-		if($this->Auth->user('id') != $this->Group->user_id){
+		$grp = $this->Group->findAllById($id);
+		$grp = $grp[0];
+		
+		if($this->Auth->user('id') != $grp['Group']['user_id']){
 			throw new ForbiddenException(__('Only the owner may edit a group!'));
 		}
 		

@@ -49,11 +49,12 @@ class AppController extends Controller {
             ),
             'logoutRedirect' => array(
 				'controller' => 'pages',
-				'action' => ''
+				'action' => 'display',
+				'welcome'
 			)
         )
     );
-/*
+
     public function beforeFilter() {
     	if($this->params['ext'] == 'json' || $this->params['ext'] == 'xml') {
         	$this->Auth->authenticate = array('Basic');
@@ -61,5 +62,13 @@ class AppController extends Controller {
 		$this->Auth->authenticate = array('Form');
     	}
     }
-*/
+	
+	public function beforeRender(){
+		$this->loadModel('User');
+		
+		$this->User->id = $this->Auth->user('id');
+		$this->User->read(null, $this->Auth->user('id'));
+
+		$this->set('user', $this->User->data);
+	}
 }

@@ -17,6 +17,7 @@
  */
 
 $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework');
+
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -47,8 +48,16 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
 					<ul>
 						<li><?=$this->Html->link(__('Home'), array('controller'=>'users', 'action' => 'home'));?></li>
 						<li><?=$this->Html->link(__('Add Expense'), array('controller'=>'expenses', 'action' => 'add'));?></li>
-						<li><?=$this->Html->link(__('Edit Profile'), array('controller'=>'users', 'action' => 'edit'));?></li>
-						<li><?=$this->Html->link(__('Edit Group Profile'), array('action' => 'add'));?></li>
+						<li><?=$this->Html->link(__('Edit Profile'), array('controller'=>'users', 'action' => 'edit', $user['User']['id']));?></li>
+						
+						<?
+						if($user['Group']['user_id'] == $user['User']['id']){
+						?>
+						<li><?=$this->Html->link(__('Edit Group Profile'), array('controller'=>'groups', 'action' => 'edit', $user['Group']['id']));?></li>
+						<?
+						}
+						?>
+						
 						<li><?=$this->Html->link(__('List Expenses'), array('controller'=>'expenses', 'action' => 'index'));?></li>
 						<li><?=$this->Html->link(__('Logout'), array('controller'=>'users','action' => 'logout'));?></li>
 					</ul>

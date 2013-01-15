@@ -66,6 +66,7 @@ class UsersController extends AppController {
  * @return void
  */
 	public function edit($id = null) {
+		$this->layout = 'logedin';
 		$this->User->id = $id;
 		if (!$this->User->exists()) {
 			throw new NotFoundException(__('Invalid user'));
@@ -128,6 +129,8 @@ class UsersController extends AppController {
 			$this->set('expenses', $this->Expense->getAllByGroupIdAndMonth($this->User->data['Group']['id'], date('n')));
 			$this->set('budget', $this->User->data['Group']['budget']);
 			$this->set('group', $this->User->data['Group']);
+			$this->set('total', $this->Expense->getTotalByGroupIdAndMonth($this->User->data['Group']['id'], date('n')));
+			
 		}
 		
 	}

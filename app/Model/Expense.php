@@ -48,12 +48,55 @@ class Expense extends AppModel {
 		return getAllByGroupId($user->data['Group']['id']);
 	}
 
-	public function getAllByUserIdAndMonth($user_id){
+	public function getAllByUserIdAndMonth($user_id, $month){
 		App::import('Model', 'User');
 		$user = new User();
 		
 		$user->read(null, $user_id);
 		return getAllByGroupIdAndMonth($user->data['Group']['id'], $month);
+	}
+
+	public function getTotalByGroupId($group_id){
+		App::import('Model', 'Group');
+		$group = new Group();
+		$group->getUserIds($group_id);
+				
+		$total = $this->find('all', array(
+		    'conditions' => array('Expense.user_id' => $userids), //array of conditions
+		    'fields' => array('sum(Expense.value) AS total'),
+		)); //array of conditions)
+		//$group->data['User'][0]
+		
+		return $total[0][0]['total'];
+	}
+
+	public function getTotalByUserId($user_id){
+		App::import('Model', 'User');
+		$user = new User();
+		
+		$user->read(null, $user_id);
+		return getTotalByGroupId($user->data['Group']['id']);
+	}
+
+	public function getTotalByGroupIdAndMonth($group_id, $month){
+		App::import('Model', 'Group');
+		$group = new Group();
+		$userids = $group->getUserIds($group_id);
+
+		$total = $this->find('all', array(
+		    'conditions' => array('Expense.user_id' => $userids, 'MONTH(Expense.date)'=>$month), //array of conditions
+		    'fields' => array('sum(Expense.value) AS total'),
+		)); //array of conditions)
+		
+		return $total[0][0]['total'];
+	}
+
+	public function getTotalByUserIdAndMonth($user_id, $month){
+		App::import('Model', 'User');
+		$user = new User();
+		
+		$user->read(null, $user_id);
+		return getTotalByGroupIdAndMonth($user->data['Group']['id'], $month);
 	}
 
 /**

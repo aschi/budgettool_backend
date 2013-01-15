@@ -50,7 +50,7 @@ class ExpensesController extends AppController {
 			
 			if ($this->Expense->save($this->request->data)) {
 				$this->Session->setFlash(__('The expense has been saved'));
-				$this->redirect(array('action' => 'index'));
+				$this->redirect(array('controller'=>'users', 'action' => 'home'));
 			} else {
 				$this->Session->setFlash(__('The expense could not be saved. Please, try again.'));
 			}

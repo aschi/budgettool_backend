@@ -23,7 +23,6 @@
 		<td><?php echo h($expense['Expense']['created']); ?>&nbsp;</td>
 		<td class="actions">
 			<?php echo $this->Html->link(__('View'), array('action' => 'view', $expense['Expense']['id'])); ?>
-			<?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $expense['Expense']['id'])); ?>
 			<?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $expense['Expense']['id']), null, __('Are you sure you want to delete # %s?', $expense['Expense']['id'])); ?>
 		</td>
 	</tr>
